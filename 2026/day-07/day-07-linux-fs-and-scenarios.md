@@ -68,7 +68,33 @@ Observation :- Showsthe hostname
  step3. Journalctl -u nginx -n 50 - Shows the logs for last 50 lines 
 
  # Scenario 2: High CPU Usage
- Step 1: htop
- step2 :
+ Step 1: htop/top
+ why : To check which process is utilizing high memory
+ step2 :ps aux --sort =-%cpu | head -10
+ why = sort the processes by high utlization, Note down the PID
+ step3 :-kill pid
+ why = Kill the process if it is not required  
+ Step 4:- sudo renice +10 -p pid
+ why - increase the nice value with 10,lowering the process priority so get less cpu time, usefull when you dont want to kill it.  
+
+ # Scenario 3: Finding Service Logs
+ Step1 :- systemctl status docker 
+ why :- will check the status of docker  
+ Step2 :-journalctl -u docker -n 50
+ why :- check logs of last 50 lines of logs  
+ Step3 :-journalctl -u ssh -f
+ why - check real time log  
+
+ # Scenario 4: File Permissions Issue
+ step 1:- ls -l /home/yaren/demo.sh
+ -rw-rw-r-- 1 yaren yaren 0 Feb 12 13:36 demo.sh
+ why - checked the status
+ Step 2: chmod +x demo.sh
+ why - change the permission with execute (x)
+ -rwxrwxr-x 1 yaren yaren 0 Feb 12 13:36 demo.sh 
+ Step 3:- notice 'x' = executable
+ why - x permission is added to user and group level
+ Step 4:- ./backup.sh
+ Why - tried to run it 
  
 
